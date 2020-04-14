@@ -1,0 +1,16 @@
+---
+- name: db & patroni config
+  hosts: 
+    - pg1
+    - pg2
+    - pg3
+  become: yes
+  roles:
+    - patroni
+
+- name: consul & haproxy config
+  hosts: consul
+  become: yes
+  roles:
+    - consul
+    - haproxy
