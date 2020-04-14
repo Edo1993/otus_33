@@ -84,3 +84,10 @@ patronictl list otus
 patronictl restart otus
 ```
 ![Img_alt](https://github.com/Edo1993/otus_33/blob/master/pics/335.png)
+
+5) Настроить клиентские подключения через HAProxy
+
+```192.168.10.150:8080```
+Логин/Пароль
+
+```admin/adminotus```
