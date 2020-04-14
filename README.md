@@ -88,6 +88,7 @@ patronictl restart otus
 5) Настроить клиентские подключения через HAProxy
 
 ```192.168.10.150:8080```
+
 Логин/Пароль
 
 ```admin/adminotus```
