@@ -1,0 +1,27 @@
+---
+- name: install utils
+  yum:
+    name:
+      - haproxy
+      - libsemanage-python
+    state: present
+
+- name: SELinux install
+  seboolean:
+    name: haproxy_connect_any
+    state: yes
+    persistent: yes
+
+- name: copy config
+  copy: src=haproxy.cfg dest=/etc/haproxy/
+
+- name: haproxy restart
+  systemd:
+    name: haproxy
+    state: restarted
+
+- name: haproxy service start
+  systemd:
+    name: haproxy
+    state: started
+    enabled: yes
