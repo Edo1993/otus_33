@@ -1,0 +1,84 @@
+---
+- name: install epel
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install essential software
+  yum:
+    name:
+      - gcc
+      - python-devel
+      - python-psycopg2
+      - python2-pip
+    state: present
+
+- name: install pg-repo
+  yum:
+    name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    state: present
+
+- name: install pg-server
+  yum:
+    name: postgresql11-server
+    state: present
+
+- name: Upgrade pip
+  pip:
+    name: pip
+    state: forcereinstall
+
+- name: Install pip packages
+  pip:
+    name:
+      - python-etcd
+      - python-consul
+      - psycopg2
+      - psycopg2-binary
+      - s3cmd
+      - wheel
+      - setuptools
+    state: present
+
+- name: Upgrade setuptools
+  pip: 
+    name: setuptools
+    state: forcereinstall
+
+- name: Install patroni
+  pip:
+    name: patroni
+    state: present
+
+- name: Config patroni service
+  template:
+    src: patroni.service.j2
+    dest: /etc/systemd/system/patroni.service
+
+- name: Make directories for patroni
+  file:                        
+    path: "{{ item }}"         
+    state: directory           
+    owner: postgres            
+    group: postgres            
+    mode: 0700                 
+  with_items:                  
+      - /var/data/base         
+      - /etc/patroni/                              
+
+- name: Copy config for patroni
+  template:                    
+    src: patroni.yml.j2        
+    dest: /etc/patroni/patroni.yml  
+
+- name: Start cluster
+  systemd:                     
+    name: patroni              
+    state: restarted           
+    daemon_reload: True        
+    enabled: true              
+
+- name: Put bashrc file
+  template:
+    src: bashrc.j2
+    dest: /root/.bashrc
