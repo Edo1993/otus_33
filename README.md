@@ -91,4 +91,6 @@ patronictl restart otus
 
 Логин/Пароль
 
-```admin/adminotus```
+```otus/homework```
+
+![Img_alt](https://github.com/Edo1993/otus_33/blob/master/pics/336.png)
